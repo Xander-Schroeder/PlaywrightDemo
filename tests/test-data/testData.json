@@ -1,0 +1,119 @@
+{
+  "testPanels": [
+    {
+      "name": "Test-Panel-CICP1800-001",
+      "logicalId": "9001",
+      "modelType": "CICP1800",
+      "manufacturer": "Continental Access",
+      "ipAddress": "192.168.1.100",
+      "port": "10001",
+      "location": "CH-Security Lab"
+    },
+    {
+      "name": "Test-Panel-HID-V1000-001",
+      "logicalId": "9002",
+      "modelType": "HID VertXEVO V1000",
+      "manufacturer": "HID",
+      "ipAddress": "192.168.1.101",
+      "port": "4050",
+      "location": "CH-Security Lab"
+    }
+  ],
+  "testReaders": [
+    {
+      "name": "Test-Reader-001",
+      "panelName": "Test-Panel-CICP1800-001",
+      "readerNumber": "1",
+      "description": "Main Entry Reader"
+    },
+    {
+      "name": "Test-Reader-002",
+      "panelName": "Test-Panel-CICP1800-001",
+      "readerNumber": "2",
+      "description": "Exit Reader"
+    }
+  ],
+  "testInputs": [
+    {
+      "name": "Test-Input-001",
+      "panelName": "Test-Panel-CICP1800-001",
+      "inputNumber": "1",
+      "description": "Door Sensor",
+      "normalState": "Open"
+    }
+  ],
+  "testOutputs": [
+    {
+      "name": "Test-Output-001",
+      "panelName": "Test-Panel-CICP1800-001",
+      "outputNumber": "1",
+      "description": "Door Strike"
+    }
+  ],
+  "testSchedules": [
+    {
+      "name": "Test-Schedule-Business-Hours",
+      "description": "Standard business hours schedule",
+      "spans": [
+        {
+          "name": "Weekday-Hours",
+          "startTime": "08:00",
+          "endTime": "17:00",
+          "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+        }
+      ]
+    }
+  ],
+  "testHolidays": [
+    {
+      "name": "Test-Holiday-NewYear",
+      "description": "New Year's Day Test",
+      "startDate": "2024-01-01",
+      "endDate": "2024-01-01"
+    }
+  ],
+  "testSubscriberGroups": [
+    {
+      "name": "Test-Subscriber-Group-001",
+      "description": "Test subscriber group for alarms",
+      "priority": "Priority 1",
+      "repeatTime": "2",
+      "acknowledgeOn": "Create"
+    }
+  ],
+  "testActionMessages": [
+    {
+      "name": "Test-Action-Message-001",
+      "description": "Test action message for testing"
+    }
+  ],
+  "testAccessAreas": [
+    {
+      "name": "Test-Access-Area-Unmanaged-001",
+      "description": "Test unmanaged access area",
+      "managed": false
+    },
+    {
+      "name": "Test-Access-Area-Managed-001",
+      "description": "Test managed access area",
+      "managed": true
+    }
+  ],
+  "testGlobalActivityLinks": [
+    {
+      "name": "Test-GAL-001",
+      "description": "Test Global Activity Link",
+      "outputs": ["Test-Output-001"],
+      "reason": "Activate Momentarily"
+    }
+  ],
+  "testPanelIOLinks": [
+    {
+      "name": "Test-Panel-IO-Link-001",
+      "description": "Test Panel IO Link",
+      "inputs": ["Test-Input-001"],
+      "outputs": ["Test-Output-001"],
+      "outputAction": "Track"
+    }
+  ]
+}

@@ -1,0 +1,699 @@
+Object,CIC,Priority,Description,CICP1800 P9 (322500074) DIS A 2.0.12,"
+Testing Notes (B: Panel, Firmware, DIS)
+","
+Testing Notes (C: Panel, Firmware, DIS)
+",
+"
+Panel
+",83.33%,,,CICP1800 P9 (322500074) DIS A 2.0.12,,,
+Panel - Creation,TRUE,,"
+Create a new panel, using normal values.  
+
+Save, and load panel to confirm data saved.  
+
+Test for failure with unallowed values.
+",All items functioned properly ,All items functioned properly ,All items functioned properly ,
+Panel - Configuration,TRUE,,"
+Using the Configurations Tab:
+
+General: Select settings for current test.
+
+Interactivity: Select settings for current test.
+
+Command Settings: Select settings for current test.
+
+Communication: Select settings for current test.
+
+Check the reaming tabs: Readers; Inputs; Outputs; Panel IO Links
+
+Are they or have they been populated with related objects?
+",All items functioned properly ,All items functioned properly ,,
+Panel - Control Panel,Note,PASS,"
+Using the Control Panel Function:
+
+Are you able to see the Panel Status?
+
+Does it have information in the tab showing that the panel is working?
+
+Are you able to check the Reader's, Input's, and Output's tabs?
+
+Are they populated with the correct information?
+
+Do a Download Command for:
+
+Download Data; Update Panel (as needed); Download Firmware (as needed); Reboot Panel (HID).
+
+Do a Controller Command for:
+
+Start; Stop; Pause
+
+Click on the ""Refresh Status"" at the bottom and the ""Refresh button"" by the ""Controller State"" to ensure that the Panel State is ""NORMAL"" and the Controller State is ""CONNECTED"".
+","Noticed if I ""STOP"" the panel and make a change anywyere on the panel and then save the change, the panel will automaically ""START"" again.",All items functioned properly ,,
+Panel - Event Configuration,TRUE,,"
+Add any Event to the Event Configuration tab.
+
+Add an Alarm Action (if applicable) - Included Subscriber Group and Action Message. Included an ""Enable During Schedule"".
+
+Add a Global Activity Link Action (if applicable).
+",All items functioned properly ,All items functioned properly ,,
+Panel - Alarms,TRUE,,"
+Confirm alarms route for event types, and Action Messages are correct.  
+
+Confirm tests match between SA and SAM.
+
+Panel Connected
+
+Panel Disconnected
+
+Manually initiate a panel/firmware download
+",All items functioned properly ,All items functioned properly ,,
+Panel - Deletion,TRUE,,"
+Delete panel.  
+
+Ensure I/O & Global links disconnect.  
+
+Confirm sub-panels (if any) disconnect.
+",Did not delete Panel,Did not delete Panel,Did not delete Panel,
+"
+Reader
+",100.00%,,,,,,
+Reader - Creation,TRUE,,"
+Create a new reader on the panel, using normal values.  
+
+Save, and load reader to confirm data saved.  
+
+Test for failure with unallowed values.
+",All items functioned properly ,All items functioned properly ,All items functioned properly ,
+Reader - Configuration,TRUE,,"
+Edit or Adjust:
+
+Reader Settings: Select settings for current test.
+
+Door I/O: Select settings for current test.
+
+Duration Settings: Select settings for current test.
+
+Event Settings: Select settings for current test.
+
+Schedules: Select settings for current test.
+
+Other: Select settings for current test.
+",All items functioned properly ,,,
+Reader - Control Reader,TRUE,,"
+Using the Control Reader Function:
+
+When doing the below commands, do the options change the ""State:"", ""Status:"", and ""Door Status"" to the appropriate states? 
+
+Confirm that all Events show up in SMS.
+
+Disable - ""State: DISABLED"", ""Status: LOCKED"", ""Door Status: DOOR CLOSED"". Unlock Momentary should be ""Grayed"" out. Event does not show up in SAM
+
+Enable - ""State: SECURE"", ""Status: LOCKED"", ""Door Status: DOOR CLOSED"". Event does not show up in SAM
+
+Unlock Momentary - ""State: SECURE"", ""Status: UNLOCKED"", ""Door Status: DOOR CLOSED"". Status should change back to ""LOCKED"" after a few moments. Event ""Manually Unlock Door:"" and ""Manually Lock Door:"" should show up in SAM
+
+Unlock and Hold - ""State: MANUAL UNLOCKED"", ""Status: UNLOCKED"", ""Door Status: DOOR CLOSED"". Event ""Manually Unlock and Hold door:"" should show up in SAM.
+
+Lock - ""State: SECURE"", ""Status: LOCKED"", ""Door Status: DOOR CLOSED"". Event ""Manually Lock Door:"" should show up in SAM.
+",All items functioned properly ,,,
+Reader - Badge Testing,TRUE,,"
+Test badge swiping with allowed and denied badges.  
+
+Test with two badge settings.  
+
+Test anti-pass back settings.
+
+Test with Keypad settings.
+
+ADA - Extended Strike Time.
+",All items functioned properly ,,,
+Reader - Event Configuration,TRUE,,"
+Add any Event to the Event Configuration tab.
+
+Add an Alarm Action (if applicable) - Included Subscriber Group and Action Message. Test an ""Enable During Schedule"".
+
+Add a Global Activity Link Action (if applicable). Test an ""Enable During Schedule"".
+",All items functioned properly ,,,
+Reader - Alarms,TRUE,,"Confirm alarms route for event types, and Action Messages are correct.  
+
+Confirm tests match between SA and SAM.
+
+Door Ajar
+
+Door Closed",All items functioned properly ,,,
+Reader - Deletion,TRUE,,"
+Delete Reader(s)
+",Did not delete Readers ,Did not delete Readers ,Did not delete Readers ,
+"
+Reader Groups
+",100.00%,,,,,,
+Reader Group - Creation,TRUE,,"
+Create a new Reader Group using normal values.  
+
+Save and load panel to confirm data saved.  
+
+Test for failure with unallowed values.
+",All items functioned properly ,All items functioned properly ,All items functioned properly ,
+Reader Group - Configuration,TRUE,,"
+Add readers to the Reader Group.
+
+Save and test Reader Group using the ""Control Readers"". 
+",All items functioned properly ,,,
+Reader Group - Control Readers,TRUE,,"
+Using Infrastructure Manager, open Reader Groups.
+
+Using Control Center, open Reader Group [SCC Control]
+
+Using Control Center, open Readers [SCC Control] to monitor changes in status for all readers. You will need to hit ""Search"" after every change to refresh status.
+
+Using the Control Reader Function:
+
+Do the below commands change the ""State:"", ""Status:"", and ""Door Status"" to the appropriate states? 
+
+Confirm that all Events show up in SMS. Note that Events will not show up for Enable/Disable.
+
+Add and/or Remove readers between tests. Note that if the ""removed"" reader responds to the triggered command, there is a bug that needs to be reported.
+
+Disable - ""State: DISABLED"", ""Status: LOCKED"", ""Door Status: DOOR CLOSED""
+While Disabled - Readers [SCC Control] should have ""State: DISABLED"" and ""Is Enabled: = No"" for readers in the Reader Group.
+
+Enable - ""State: SECURE"", ""Status: LOCKED"", ""Door Status: DOOR CLOSED""
+
+Unlock Momentary - ""State: SECURE"", ""Status: UNLOCKED"", ""Door Status: DOOR CLOSED"". Status should change back to ""LOCKED"" after a few moments.
+
+Unlock and Hold - ""State: MANUAL UNLOCKED"", ""Status: UNLOCKED"", ""Door Status: DOOR CLOSED""
+
+Lock - ""State: SECURE"", ""Status: LOCKED"", ""Door Status: DOOR CLOSED""
+",All items functioned properly ,,,
+Reader Group - Alarms,TRUE,,"Confirm alarms route for event types, and Action Messages are correct.  
+
+Confirm tests match between SA and SAM.
+
+Door Ajar
+
+Door Closed",All items functioned properly ,,,
+Reader Group - Deletion,TRUE,,"
+Delete Reader Groups
+",Did not delete Reader Groups,Did not delete Reader Groups,Did not delete Reader Groups,
+"
+Input
+",100.00%,,,,,,
+Input - Creation,TRUE,,"
+Create a new Input on the panel, using normal values.  
+
+Save, and load inputs to confirm data saved.  
+
+Test for failure with unallowed values.
+",All items functioned properly ,All items functioned properly ,All items functioned properly ,
+Input - Configuration,TRUE,,"
+Edit or Adjust:
+
+General: Test ""Normal State Is Open"" 
+
+State Transitions: ""Monitor Schedule"". Note that adding a schedule does not trigger event in SAM or SMS
+
+High Priority Alerts:
+",All items functioned properly ,,,
+Input - Control Input,TRUE,,"
+Using the Control Input function:
+
+Do the below command:
+
+Disable - State: DISABLED
+
+Enable - State: NORMAL 
+
+Confirm that all Events show up in SMS. Note that Events will not show up for Enable/Disable.
+",All items functioned properly ,,,
+Input - Event Configuration,TRUE,,"
+Add any Event to the Event Configuration tab.
+
+Add an Alarm Action (if applicable) - Included Subscriber Group and Action Message. Test an ""Enable During Schedule"".
+
+Add a Global Activity Link Action (if applicable). Test an ""Enable During Schedule"".
+",All items functioned properly ,,,
+Input - Alarms,TRUE,,"
+Confirm alarms route for event types, and Action Messages are correct.  
+
+Confirm tests match between SA and SAM.
+
+Create an Input Abnormal event.
+",All items functioned properly ,,,
+Input - Deletion,TRUE,,"
+Delete Input(s)
+",Did not delete Inputs ,Did not delete Inputs ,Did not delete Inputs ,
+"
+Input Groups
+",100.00%,,,,,,
+Input Group - Creation,TRUE,,"
+Create a new Input Group using normal values.  
+
+Save and load panel to confirm data saved.  
+
+Test for failure with unallowed values.
+",All items functioned properly ,All items functioned properly ,All items functioned properly ,
+Input Group - Configuration,TRUE,,"
+Add inputs to the Input Groups.
+
+Save and test the Input Group using the ""Control Inputs"". 
+",All items functioned properly ,,,
+Input Group - Control Input,TRUE,,"
+Using Infrastructure Manager, open Input Groups.
+
+Using Control Center, open Input Groups [SCC Control]
+
+Using Control Center, open Inputs [SCC Control] to monitor changes in status for all readers. You will need to hit ""Search"" after every change to refresh status.
+
+Using the Control Input Function:
+
+Do the below commands change the ""State:"" to the appropriate states? 
+
+Confirm that all Events show up in SMS. Note that Events will not show up for Enable/Disable.
+
+Add and/or Remove readers between tests. Note that if the ""removed"" Input responds to the triggered command, there is a bug that needs to be reported.
+
+Disable - ""State: DISABLED""
+While Disabled - Inputs [SCC Control] should have ""State: DISABLED"" and ""Is Enabled: = No"" for inputs in the Input Group.
+
+Enable - ""State: NORMAL""
+",All items functioned properly ,,,
+Input Group - Alarms,TRUE,,"
+Confirm alarms route for event types, and Action Messages are correct.    
+
+Confirm tests match between SA and SAM.
+",All items functioned properly ,,,
+Input Group - Deletion,TRUE,,"
+Delete Input Groups
+",Did not delete Input Groups,Did not delete Input Groups,Did not delete Input Groups,
+"
+Output
+",100.00%,,P9-O92 Non-Reader Output (322500189),P9-O92 Non-Reader Output (322500189),,,
+Output - Creation,TRUE,,"
+Create a new Output on the panel, using normal values.  
+
+Save, and load outputs to confirm data saved.  
+
+Test for failure with unallowed values.
+",All items functioned properly ,All items functioned properly ,All items functioned properly ,
+Output - Configuration,TRUE,,"
+Edit or Adjust:
+
+General: Select settings for current test.
+",All items functioned properly ,,,
+Output - Control Outputs,TRUE,,"
+Using the Control Input function:
+
+Confirm that all Events show up in SMS. Note that Events will not show up for Enable/Disable.
+
+Do the below command:
+
+Disable - State: DISABLED. Activate button should be ""Grayed"" out.
+
+Enable - State: INACTIVE
+
+Activate - State: ACTIVE. State should go back to INACTIVE after a few seconds 
+
+Activate and Hold - State: ACTIVE.
+
+Deactivate - State: INACTIVE
+",All items functioned properly ,,,
+Output - Event Configuration,TRUE,,"
+Add any Event to the Event Configuration tab.
+
+Add an Alarm Action (if applicable) - Included Subscriber Group and Action Message. Test an ""Enable During Schedule"".
+
+Add a Global Activity Link Action (if applicable). Test an ""Enable During Schedule"".
+",All items functioned properly ,,,
+Output - Alarms,TRUE,,"
+Confirm alarms route for event types, and Action Messages are correct.  
+
+Confirm tests match between SA and SAM.
+
+Create an Output Activated
+",All items functioned properly ,,,
+Output - Deletion,TRUE,,"
+Delete Output(s)
+",Did not delete Outputs ,Did not delete Outputs ,Did not delete Outputs ,
+"
+Output Groups
+",100.00%,,,,,,
+Output Group - Creation,TRUE,,"
+Create a new Input Group using normal values.  
+
+Save and load panel to confirm data saved.  
+
+Test for failure with unallowed values.
+",All items functioned properly ,All items functioned properly ,All items functioned properly ,
+Output Group - Configuration,TRUE,,"
+Add Outputs to the Output Groups.
+
+Save and test the Output Group using the ""Control Outputs"". 
+",All items functioned properly ,,,
+Output Group - Control Outputs,TRUE,,"
+Using Infrastructure Manager, open Output Groups.
+
+Using Control Center, open Output Groups [SCC Control]
+
+Using Control Center, open Output [SCC Control] to monitor changes in status for all readers. You will need to hit ""Search"" after every change to refresh status.
+
+Using the Control Outputs Function:
+
+Do the below commands change the ""State:"" to the appropriate states? 
+
+Confirm that all Events show up in SMS. Note that Events will not show up for Enable/Disable.
+
+Add and/or Remove outputs between tests. Note that if the ""removed"" Outputs responds to the triggered command, there is a bug that needs to be reported.
+
+Disable - ""State: DISABLED""
+While Disabled - Outputs [SCC Control] should have ""State: DISABLED"" and ""Is Enabled: = No"" for outputs in the Output Groups.
+
+Enable - State: INACTIVE
+
+Activate - State: ACTIVE. State should go back to INACTIVE after a few seconds 
+
+Activate and Hold - State: ACTIVE.
+
+Deactivate - State: INACTIVE
+",All items functioned properly ,,,
+Output Group - Alarms,TRUE,,"
+Confirm alarms route for event types, and Action Messages are correct.   
+
+Confirm tests match between SA and SAM.
+",All items functioned properly ,,,
+Output Group - Deletion,TRUE,,"
+Delete Output Groups
+",Did not delete Output Groups,Did not delete Output Groups,Did not delete Output Groups,
+"
+Global Activity Links
+",100.00%,,"GAL for Mercury, CICP, and HID","GAL for Mercury, CICP, and HID",,,
+GAL - Creation,TRUE,,"
+Create a new Global Activity Link using normal values.  
+
+Save and load the Global Activity Link to confirm that the data saved.  
+
+Test for failure with unallowed values.
+",All items functioned properly ,All items functioned properly ,All items functioned properly ,
+GAL - Configuration,TRUE,,"
+Add Outputs to the Global Activity Link.
+
+Set the output(s) Reason: to Activate Momentarily"", ""Activate and Hold, or ""Deactivate""
+
+Save and test the Global Activity Link using the ""Control Activity Link Program"". 
+",All items functioned properly ,,,
+Control Global Activity Links,TRUE,,"
+Using Infrastructure Manager, open Global Activity Link.
+
+Using Control Center, open Global Activity Link [SCC Control]
+
+Using Control Center, open Output [SCC Control] to monitor changes in status for all readers. You will need to hit ""Search"" after every change to refresh status.
+
+Using the Control Global Activity Link Function:
+
+Do the below commands change the ""State:"" to the appropriate states? 
+
+Confirm that all Events show up in SMS. 
+
+Add and/or Remove outputs between tests. Note that if the ""removed"" Outputs responds to the triggered command, there is a bug that needs to be reported.
+
+DO: Pending on above ""Reason"" - State: ACTIVE (Momentarily), ACTIVE (Activate and Hold), INACTIVE (Deactivate)
+
+UNDO: INACTIVATE
+
+Assign the Global Activity Link to an event configuration to a: panel, reader, input, output. 
+
+Trigger an the event associated with the Global Activity Link and check to see if the outputs show up in SAM.
+",All items functioned properly ,,,
+Cross Panel/DIS Global Activity Link Test,TRUE,,"
+DIS A, B, C, and/or LS
+
+DIS A or B or C and LS
+
+Using Infrastructure Manager, open Global Activity Link.
+
+Using Control Center, open Global Activity Link [SCC Control]
+
+Using Control Center, open Output [SCC Control] to monitor changes in status for all readers. You will need to hit ""Search"" after every change to refresh status.
+
+Using the Control Global Activity Link Function:
+
+Do the below commands change the ""State:"" to the appropriate states? 
+
+Confirm that all Events show up in SMS. 
+
+Add and/or Remove outputs between tests. Note that if the ""removed"" Outputs responds to the triggered command, there is a bug that needs to be reported.
+
+DO: Pending on above ""Reason"" - State: ACTIVE (Momentarily), ACTIVE (Activate and Hold), INACTIVE (Deactivate)
+
+UNDO: INACTIVATE
+
+Assign the Global Activity Link to an event configuration to a: panel, reader, input, output. 
+
+Trigger an the event associated with the Global Activity Link and check to see if the outputs show up in SAM.
+",All items functioned properly ,,,
+GAL - Alarms,TRUE,,"
+Confirm alarms route for event types, and Action Messages are correct.  
+
+Test with repeat alarms on.  
+
+Confirm tests match between SA and SAM.
+",All items functioned properly ,,,
+GAL - Deletion,TRUE,,"
+Delete Global Activity Links
+",Did not delete GAL,Did not delete GAL,Did not delete GAL,
+"
+Panel IO Links
+",100.00%,,,,,,
+IO Links - Creation,TRUE,,"
+Create a new Panel IO Link using normal values.  
+
+Enable the Panel IO Link.
+
+Save and load the Panel IO  Link to confirm that the data saved.  
+
+Test for failure with unallowed values.
+",All items functioned properly ,All items functioned properly ,All items functioned properly ,
+IO Links - Configuration,TRUE,,"
+Add Outputs to the Panel IO Link.
+
+Add Inputs to the Panel IO Link.
+
+Set the Output Action: to ""Track"", ""Activate Momentarily"", or ""Deactivate""
+
+Save and test the Panel IO Link using the ""Control Panel IO Link Program"". 
+",All items functioned properly ,,,
+IO Links - Control Panel IO,TRUE,,"
+Using Infrastructure Manager, open Panel IO Link.
+
+Using Control Center, open Panel IO Link [SCC Control]
+
+Using Control Center, open Output [SCC Control] to monitor changes in status for all readers. You will need to hit ""Search"" after every change to refresh status.
+
+Using the Control Panel IO Link Function:
+
+Do the below commands change the ""State:"" to the appropriate states? 
+
+Confirm that all Events show up in SMS. 
+
+Add and/or Remove outputs between tests. Note that if the ""removed"" Outputs responds to the triggered command, there is a bug that needs to be reported.
+
+Activate: Pending on above ""Output Action"" - State: ACTIVE (Momentarily), Track, Deactivate 
+
+Deactivate: INACTIVATE
+
+Set to Normal: INACTIVATE
+",All items functioned properly ,,,
+IO Links - Alarms,TRUE,,"
+Confirm alarms route for event types, and Action Messages are correct.  
+
+Confirm tests match between SA and SAM.
+",All items functioned properly ,,,
+IO Links - Deletion,TRUE,,"
+Delete Panel IO Links
+",Did not delete IO Links,Did not delete IO Links,Did not delete IO Links,
+"
+Subscriber Group
+",100.00%,,"Martin's Subscriber Group: Create, Resolve, Repeat","Martin's Subscriber Group: Create, Resolve, Repeat",,,
+Subscriber Group - Creation,TRUE,,"
+Create a new Subscriber Group using normal values.  
+
+Save and load the Subscriber Group to confirm that the data saved.  
+
+Test for failure with unallowed values.
+",All items functioned properly ,All items functioned properly ,All items functioned properly ,
+Subscriber Group - Configuration,TRUE,,"
+Using System Manager, open Subscriber Groups.
+
+Assign Subscriber group to an event configuration under a: panel, reader, input, output.
+
+Under Alarm Settings:
+
+Priority: Priority 1
+
+Repeat Time (Minutes): Site to 1 or 2
+
+Perform tests  for each of the ""Acknowledge on"":
+
+Create: Alarm should go directly to ""Active"" and email should be sent to subscriber groups. If applicable, reset the triggered event to a normal state and clear the ""Active"" alarm by ""Acknowledge"" the alarm under ""Active"" alarm. Email should come in saying Alarm has been Resolved.
+
+Resolved: Alarm should go directly to ""Pending"" and email should be sent to subscriber group. If applicable, reset the triggered event to a normal state. Once at a normal state, alarm should go to ""Active"" and email should be sent. Acknowledge the alarm under ""Active"" alarm. Email should come in saying Alarm has been Resolved.
+
+Repeat: Alarm should go directly to ""Pending"" and email should be sent to subscriber group. Wait for repeat email notification, once repeat email comes in, alarm should go from ""Pending"" to ""Active. If applicable, reset the triggered event to a normal state. Acknowledge the alarm under ""Active"" alarm. Email should come in saying Alarm has been Resolved.
+
+Under Subscribers:
+
+Add Subscribers. Be sure to have 1 to 2 workstations and 1 to 2 emails
+",All items functioned properly ,,,
+Subscriber Group - Alarms,TRUE,,"
+Confirm alarms route for event types, and Action Messages are correct.  
+
+Test with repeat alarms on.  
+
+Confirm tests match between SMS and SAM.
+",All items functioned properly ,,,
+Subscriber Group - Deletion,TRUE,,"
+Delete Subscriber Groups
+",Did not delete Subscriber Group,Did not delete Subscriber Group,Did not delete Subscriber Group,
+"
+Action Message
+",100.00%,,Martin's Action Message,Martin's Action Message,,,
+Action Message - Creation,TRUE,,"
+Create a new Subscriber Group using normal values.  
+
+Save and load the Subscriber Group to confirm that the data saved.  
+
+Test for failure with unallowed values.
+",All items functioned properly ,All items functioned properly ,All items functioned properly ,
+Action Message - Configuration,TRUE,,"
+Using System Manager, open Action Message.
+
+Make sure that there is an ""Action Message Description"".
+
+Assign the Action Message to an even that the Subscriber Group is associated to with an event configuration under a: panel, reader, input, output.
+
+Follow procedures for Subscriber Groups.
+",All items functioned properly ,,,
+Action Message - Alarms,TRUE,,"
+Confirm alarms route for event types, and Action Messages are correct.   
+
+Confirm tests match between SA and SAM.
+",All items functioned properly ,,,
+Action Message - Deletion,TRUE,,"
+Delete Action Message
+",Did not delete Action Message,Did not delete Action Message,Did not delete Action Message,
+"
+Access Areas - Unmanaged
+",100.00%,,A51 Emulator Lab Readers (main),A51 Emulator Lab Readers (main),,,
+Access Unmanaged - Creation,TRUE,,"
+Using the Access Manager tab, select Access Area.
+
+Click ""Add""
+
+Name your new Access Area and fill in all required fields. 
+",All items functioned properly ,Test not done,Test not done,
+Access Unmanaged - Configuration,TRUE,,"
+Go to the ""Readers"" tab and click on the ""Add Reader"" at the bottom left
+
+Search for the reader(s) you wish to add to the Access Area
+
+Save new settings.
+
+Using the Infrastructure Manager, select Readers.
+
+Locate the reader you added the Access Area to. Go to the Access Area tab and ensure that the newly created Access Area is listed for this reader
+",All items functioned properly ,Test not done,Test not done,
+Access Unmanaged - Deletion,TRUE,,"
+Delete the Access Area
+",Did not delete Unmanaged Access Area,Did not delete Unmanaged Access Area,Did not delete Unmanaged Access Area,
+"
+Access Areas - Managed
+",100.00%,,Not Tested,Not Tested,,,
+Access Managed - Creation,TRUE,,"
+Using the Access Manager tab, select Access Area.
+
+Click ""Add""
+
+Name your new Access Area and fill in all required fields. 
+
+Click on the ""Managed Area"" box to create a managed area reader.
+",Test not done,Test not done,Test not done,
+Access Managed - Configuration,TRUE,,"
+Go to the ""Readers"" tab and click on the ""Add Reader"" at the bottom left
+
+Search for the reader(s) you wish to add to the Access Area
+
+Save new settings.
+
+Using the Infrastructure Manager, select Readers.
+
+Locate the reader you added the Access Area to. Go to the Access Area tab and ensure that the newly created Access Area is listed for this reader
+",Test not done,Test not done,Test not done,
+Access Managed - Deletion,TRUE,,"
+Delete the Access Area
+",Did not delete Managed Access Area,Did not delete Managed Access Area,Did not delete Managed Access Area,
+"
+Schedule
+",100.00%,,Martin's Schedule Test - Readers / Inputs / Outputs ,Martin's Schedule Test - Readers / Inputs / Outputs ,,,
+Schedule - Creation,TRUE,,"
+Create Schedule Span for Readers, Inputs, Outputs, Holiday
+
+Test for failure with unallowed values.
+",All items functioned properly ,All items functioned properly ,All items functioned properly ,
+Schedule - Configuration,TRUE,,"
+Add Schedule Span to Schedule.
+
+Assign a schedule to a Panel IO Links, Reader, Input, Output.
+
+Ensure that the Schedule Span is at the correct date and time.
+",All items functioned properly ,,,
+Schedule - Alarms,TRUE,,"
+Monitor events in SAM for any triggered events. 
+
+Check the reader, input, output, for activation by checking the ""Control Status"".
+",All items functioned properly ,,,
+Schedule - Deletion,TRUE,,"
+Delete Schedule
+",All items functioned properly ,Did not delete Schedule   ,Did not delete Schedule   ,
+"
+Schedule Span
+",100.00%,,Martin's Schedule Span - Readers / Inputs / Outputs ,Martin's Schedule Span - Readers / Inputs / Outputs ,,,
+Schedule Span - Creation,TRUE,,"
+Create Schedule Span for Readers, Inputs, Outputs, Holiday
+
+Test for failure with unallowed values.
+",All items functioned properly ,All items functioned properly ,All items functioned properly ,
+Schedule Span - Configuration,TRUE,,"
+Set the ""Time of Day"" and ""Days"" that you want the schedule to start.
+",All items functioned properly ,All items functioned properly ,All items functioned properly ,
+Schedule Span - Deletion,TRUE,,"
+Delete Schedule Span
+",Did not delete Schedule Span,Did not delete Schedule Span,Did not delete Schedule Span,
+"
+Holiday Schedule
+",100.00%,,Martin's Schedule Test - Holidays CH-Security Lab,Martin's Schedule Test - Holidays CH-Security Lab,,,
+Holiday Schedule - Creation,TRUE,,"
+Using System Manager, go to Holidays
+
+Click ""Add"" to create a Holiday.
+
+Fill in all available fields with the Holiday information.
+
+Set a ""Start Date and Time"". 
+
+Save the new Holiday.
+",All items functioned properly ,All items functioned properly ,All items functioned properly ,
+Holiday Schedule - Configuration,TRUE,,"
+Under System Manager, create a Schedule Span for the Holiday. Select the ""Time of Day"" for the holiday to start. Under ""Days"", select ""All Holidays""
+
+Under System Manager, go to Holidays and select the Holiday created. Set a ""Start Date and Time"".
+
+Assign the Holiday Schedule to a Reader, Input, or Output. Check the ""Control Reader/Input/Output"" for changes in its Status.
+",All items functioned properly ,,,
+Holiday Schedule - Event Configuration,TRUE,,"
+Monitor events in SAM for any triggered events. 
+
+Check the reader, input, output, for activation by checking the ""Control Status"".
+",All items functioned properly ,,,
+Holiday Schedule - Deletion,TRUE,,"
+Delete Holiday Schedule
+",Did not delete Holiday Schedule,Did not delete Holiday Schedule,Did not delete Holiday Schedule,
+Totals,81.52%,,"Total calculations are done by panel types, be careful to copy from a similar panel type to insert a new panel type.",,,,
