@@ -1,7 +1,7 @@
 # Playwright Test Framework Setup
 
 - I am running this on Windows 11. Run all command line commands as powershell-compatible commands.
-- **Follow all instructions in order**. : prompts are all under the /prompt folder and are labeled as phase*.md follow them in numerical order and feel free to use any of the other files in this directory and the tools provided to you in them
+- **Follow all instructions in order**. : prompts are all under the /prompt folder and are labeled as phase*.md follow them in numerical order and feel free to use any of the other files in this directory and the tools provided to you in them. There are extra tips in `implementationNotes.md` that you should refer too before doing you implementation and refer to throughout your work to help
 - Target: Build a comprehensive cross-browser Playwright test suite that achieves 100% pass rate.
 - There is a logging system at 'test-runner.js'
 - When you run into an issue or have failing tests to fix use the mcp server and reevaluate how the site works to fix them
