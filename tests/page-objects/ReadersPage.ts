@@ -241,8 +241,8 @@ export class ReadersPage extends InfrastructureManagerPage {
     await readerLink.click();
     await this.waitForPageLoad();
     
-    // Additional wait for reader details page
-    await this.page.waitForSelector('h1:has-text("Reader -")', { timeout: 10000 });
+    // Additional wait for reader details page - look for any heading containing "Reader -"
+    await this.page.locator('h1').filter({ hasText: 'Reader -' }).waitFor({ state: 'visible', timeout: 10000 });
   }
 
   async getReaderCount(): Promise<number> {

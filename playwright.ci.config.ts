@@ -25,8 +25,8 @@ export default defineConfig({
   ],
   /* Shared settings for all the projects below. */
   use: {
-    /* Base URL - use mock server in CI if needed */
-    baseURL: process.env.MOCK_AUTH ? 'http://localhost:3000' : 'https://azsqsmsls300.amr.corp.intel.com:4012',
+    /* Base URL to your application */
+    baseURL: process.env.TEST_BASE_URL || 'https://azsqsmsls300.amr.corp.intel.com:4012',
     
     /* Use shared authentication state across all tests */
     storageState: './auth-state.json',
@@ -73,10 +73,5 @@ export default defineConfig({
     }
   ],
 
-  /* CI-specific web server for mock testing */
-  webServer: process.env.MOCK_AUTH ? {
-    command: 'node tests/mock-server.js',
-    port: 3000,
-    reuseExistingServer: !process.env.CI,
-  } : undefined,
+  /* Remove CI-specific web server configuration */
 });

@@ -6,11 +6,11 @@ on:
       environment:
         description: 'Test environment'
         required: true
-        default: 'mock'
+        default: 'test'
         type: choice
         options:
-          - mock
-          - staging
+          - test
+          - qa
       test_suite:
         description: 'Test suite to run'
         required: false
@@ -48,54 +48,26 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
       
-    - name: Setup authentication for mock environment
-      if: github.event.inputs.environment == 'mock'
+    - name: Setup authentication state
       run: |
-        cat << 'EOF' > auth-state.json
-        {
-          "cookies": [],
-          "origins": [
-            {
-              "origin": "http://localhost:3000",
-              "localStorage": [
-                {
-                  "name": "mockAuth",
-                  "value": "true"
-                },
-                {
-                  "name": "testUser",
-                  "value": "CI Test User"
-                }
-              ]
-            }
-          ]
-        }
-        EOF
-        
-    - name: Setup authentication for staging environment
-      if: github.event.inputs.environment == 'staging'
-      run: |
-        echo "Setting up staging authentication..."
-        # Note: For staging, you would need to provide authentication credentials
-        # This could be done through GitHub secrets or other secure methods
-        echo "⚠️  Staging authentication not implemented yet"
+        if [ -n "${{ secrets.AUTH_STATE_JSON }}" ]; then
+          echo "Setting up authentication from secrets..."
+          echo '${{ secrets.AUTH_STATE_JSON }}' > auth-state.json
+        else
+          echo "Warning: No AUTH_STATE_JSON secret found - tests may fail without authentication"
+          echo "Please set up GitHub secrets as documented in .github/SECRETS_SETUP.md"
+        fi
         
     - name: Run Playwright tests
       run: |
-        if [ "${{ github.event.inputs.environment }}" = "mock" ]; then
-          CONFIG_FILE="playwright.ci.config.ts"
-          export MOCK_AUTH=true
-        else
-          CONFIG_FILE="playwright.config.ts"
-        fi
-        
         if [ "${{ github.event.inputs.test_suite }}" = "all" ]; then
-          npx playwright test --project=${{ github.event.inputs.browser }} --config=$CONFIG_FILE
+          npx playwright test --project=${{ github.event.inputs.browser }} --config=playwright.ci.config.ts
         else
-          npx playwright test tests/e2e/${{ github.event.inputs.test_suite }}.test.ts --project=${{ github.event.inputs.browser }} --config=$CONFIG_FILE
+          npx playwright test tests/e2e/${{ github.event.inputs.test_suite }}.test.ts --project=${{ github.event.inputs.browser }} --config=playwright.ci.config.ts
         fi
       env:
         CI: true
+        TEST_BASE_URL: ${{ github.event.inputs.environment == 'test' && (secrets.TEST_BASE_URL || 'https://azsqsmsls300.amr.corp.intel.com:4012') || (secrets.QA_BASE_URL || 'https://AZVQSMSWEB360.amr.corp.intel.com:4012') }}
         
     - uses: actions/upload-artifact@v4
       if: always()

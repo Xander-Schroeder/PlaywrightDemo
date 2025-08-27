@@ -27,10 +27,22 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
       
+    - name: Setup authentication state
+      run: |
+        if [ -n "${{ secrets.AUTH_STATE_JSON }}" ]; then
+          echo "Setting up authentication from secrets..."
+          echo '${{ secrets.AUTH_STATE_JSON }}' > auth-state.json
+        else
+          echo "Warning: No AUTH_STATE_JSON secret found - tests may fail without authentication"
+          echo "Please set up GitHub secrets as documented in .github/SECRETS_SETUP.md"
+        fi
+      
     - name: Run Playwright tests
-      run: npx playwright test --project=${{ matrix.browser }}
+      run: npx playwright test --project=${{ matrix.browser }} --config=playwright.ci.config.ts
       env:
         CI: true
+        TEST_BASE_URL: ${{ secrets.TEST_BASE_URL || 'https://azsqsmsls300.amr.corp.intel.com:4012' }}
+        QA_BASE_URL: ${{ secrets.QA_BASE_URL || 'https://AZVQSMSWEB360.amr.corp.intel.com:4012' }}
         
     - uses: actions/upload-artifact@v4
       if: always()

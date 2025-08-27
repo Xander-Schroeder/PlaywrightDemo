@@ -10,8 +10,9 @@
     "test:debug": "playwright test --debug",
     "test:report": "playwright show-report",
     "test:ci": "playwright test --config=playwright.ci.config.ts",
-    "test:ci-mock": "MOCK_AUTH=true playwright test --config=playwright.ci.config.ts",
-    "mock-server": "node tests/mock-server.js",
+    "test:qa": "set TEST_BASE_URL=https://AZVQSMSWEB360.amr.corp.intel.com:4012&& playwright test --config=playwright.ci.config.ts",
+    "test:local": "playwright test --headed --config=playwright.config.ts",
+    "validate-auth": "node validate-auth.js",
     "install:browsers": "playwright install"
   },
   "keywords": [
