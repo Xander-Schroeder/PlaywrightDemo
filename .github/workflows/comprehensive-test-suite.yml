@@ -1,0 +1,136 @@
+name: Comprehensive Test Suite
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Test environment'
+        required: true
+        default: 'mock'
+        type: choice
+        options:
+          - mock
+          - staging
+      test_suite:
+        description: 'Test suite to run'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - infrastructure
+          - panels
+          - readers
+      browser:
+        description: 'Browser to test'
+        required: false
+        default: 'chromium'
+        type: choice
+        options:
+          - chromium
+          - firefox
+          - webkit
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - uses: actions/setup-node@v4
+      with:
+        node-version: lts/*
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+      
+    - name: Setup authentication for mock environment
+      if: github.event.inputs.environment == 'mock'
+      run: |
+        cat << 'EOF' > auth-state.json
+        {
+          "cookies": [],
+          "origins": [
+            {
+              "origin": "http://localhost:3000",
+              "localStorage": [
+                {
+                  "name": "mockAuth",
+                  "value": "true"
+                },
+                {
+                  "name": "testUser",
+                  "value": "CI Test User"
+                }
+              ]
+            }
+          ]
+        }
+        EOF
+        
+    - name: Setup authentication for staging environment
+      if: github.event.inputs.environment == 'staging'
+      run: |
+        echo "Setting up staging authentication..."
+        # Note: For staging, you would need to provide authentication credentials
+        # This could be done through GitHub secrets or other secure methods
+        echo "⚠️  Staging authentication not implemented yet"
+        
+    - name: Run Playwright tests
+      run: |
+        if [ "${{ github.event.inputs.environment }}" = "mock" ]; then
+          CONFIG_FILE="playwright.ci.config.ts"
+          export MOCK_AUTH=true
+        else
+          CONFIG_FILE="playwright.config.ts"
+        fi
+        
+        if [ "${{ github.event.inputs.test_suite }}" = "all" ]; then
+          npx playwright test --project=${{ github.event.inputs.browser }} --config=$CONFIG_FILE
+        else
+          npx playwright test tests/e2e/${{ github.event.inputs.test_suite }}.test.ts --project=${{ github.event.inputs.browser }} --config=$CONFIG_FILE
+        fi
+      env:
+        CI: true
+        
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: playwright-report-${{ github.event.inputs.environment }}-${{ github.event.inputs.browser }}-${{ github.run_number }}
+        path: playwright-report/
+        retention-days: 30
+        
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-results-${{ github.event.inputs.environment }}-${{ github.event.inputs.browser }}-${{ github.run_number }}
+        path: test-results/
+        retention-days: 30
+        
+    - name: Generate test summary
+      if: always()
+      run: |
+        echo "## 🎭 Test Results Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Environment:** ${{ github.event.inputs.environment }}" >> $GITHUB_STEP_SUMMARY
+        echo "**Browser:** ${{ github.event.inputs.browser }}" >> $GITHUB_STEP_SUMMARY
+        echo "**Test Suite:** ${{ github.event.inputs.test_suite }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        if [ -f "test-results/results.json" ]; then
+          node -e "
+            const fs = require('fs');
+            const results = JSON.parse(fs.readFileSync('test-results/results.json', 'utf8'));
+            const stats = results.stats;
+            console.log('**📊 Test Statistics:**');
+            console.log('- Total Tests: ' + (stats.expected + stats.unexpected + stats.flaky));
+            console.log('- ✅ Passed: ' + stats.expected);
+            console.log('- ❌ Failed: ' + stats.unexpected);
+            console.log('- ⚠️ Flaky: ' + stats.flaky);
+            console.log('- ⏩ Skipped: ' + stats.skipped);
+          " >> $GITHUB_STEP_SUMMARY
+        fi

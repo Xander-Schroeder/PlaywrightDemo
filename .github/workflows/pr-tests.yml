@@ -1,0 +1,91 @@
+name: Pull Request Tests
+
+on:
+  pull_request:
+    branches: [ main, master ]
+  push:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium]  # Start with chromium, can expand later
+    steps:
+    - uses: actions/checkout@v4
+    
+    - uses: actions/setup-node@v4
+      with:
+        node-version: lts/*
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+      
+    - name: Run Playwright tests
+      run: npx playwright test --project=${{ matrix.browser }}
+      env:
+        CI: true
+        
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: playwright-report-${{ matrix.browser }}-pr${{ github.event.number || 'push' }}
+        path: playwright-report/
+        retention-days: 14
+        
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-results-${{ matrix.browser }}-pr${{ github.event.number || 'push' }}
+        path: test-results/
+        retention-days: 14
+        
+    - name: Comment PR with test results
+      if: github.event_name == 'pull_request' && always()
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          const path = require('path');
+          
+          let comment = '## 🎭 Playwright Test Results\n\n';
+          
+          try {
+            const resultsPath = 'test-results/results.json';
+            if (fs.existsSync(resultsPath)) {
+              const results = JSON.parse(fs.readFileSync(resultsPath, 'utf8'));
+              const stats = results.stats;
+              
+              comment += `**Browser:** ${{ matrix.browser }}\n`;
+              comment += `**Total Tests:** ${stats.expected + stats.unexpected + stats.flaky}\n`;
+              comment += `**✅ Passed:** ${stats.expected}\n`;
+              comment += `**❌ Failed:** ${stats.unexpected}\n`;
+              comment += `**⚠️ Flaky:** ${stats.flaky}\n`;
+              comment += `**⏩ Skipped:** ${stats.skipped}\n\n`;
+              
+              if (stats.unexpected > 0) {
+                comment += '❌ Some tests failed. Check the artifacts for detailed reports.\n\n';
+              } else {
+                comment += '✅ All tests passed!\n\n';
+              }
+            } else {
+              comment += 'Test results file not found.\n\n';
+            }
+          } catch (error) {
+            comment += `Error reading test results: ${error.message}\n\n`;
+          }
+          
+          comment += `📊 [View detailed HTML report in artifacts](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})`;
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: comment
+          });

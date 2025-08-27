@@ -9,6 +9,9 @@
     "test:ui": "playwright test --ui",
     "test:debug": "playwright test --debug",
     "test:report": "playwright show-report",
+    "test:ci": "playwright test --config=playwright.ci.config.ts",
+    "test:ci-mock": "MOCK_AUTH=true playwright test --config=playwright.ci.config.ts",
+    "mock-server": "node tests/mock-server.js",
     "install:browsers": "playwright install"
   },
   "keywords": [
